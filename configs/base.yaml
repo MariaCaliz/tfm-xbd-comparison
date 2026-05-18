@@ -27,6 +27,12 @@ data:
   val_ratio: 0.15
   test_ratio: 0.15
 
+  # Preprocesamiento de crops
+  patch_margin_ratio: 0.15       # Margen sobre el bbox (15 % de cada lado)
+  min_building_side_px: 5        # Descartar edificios con lado < N píxeles
+  crop_format: jpg               # Formato de salida: jpg | png
+  crop_quality: 85               # Calidad JPEG (ignorado si crop_format=png)
+
   # Dataloader
   batch_size: 32
   num_workers: 4
