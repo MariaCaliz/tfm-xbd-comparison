@@ -1,0 +1,101 @@
+# ============================================================
+# Configuración base — valores compartidos por todos los modelos
+# Los archivos específicos por modelo heredan y sobrescriben de aquí.
+# ============================================================
+
+experiment:
+  seed: 42
+  output_dir: results/
+  device: cuda                 # auto | cuda | cpu
+
+# ============================================================
+# Datos
+# ============================================================
+data:
+  processed_dir: data/processed
+  splits_dir: data/splits
+  num_classes: 4
+  class_names:
+    - no-damage
+    - minor-damage
+    - major-damage
+    - destroyed
+
+  # División por evento de desastre para evitar fuga geográfica
+  split_strategy: by_event
+  train_ratio: 0.70
+  val_ratio: 0.15
+  test_ratio: 0.15
+
+  # Dataloader
+  batch_size: 32
+  num_workers: 4
+  pin_memory: true
+
+# ============================================================
+# Data augmentation
+# ============================================================
+augmentation:
+  enabled: true
+  # Probabilidades aumentadas para clases minoritarias
+  oversample_minor: true
+  oversample_major: true
+  oversample_destroyed: true
+
+  train:
+    horizontal_flip: 0.5
+    vertical_flip: 0.5
+    rotate90: 0.5
+    brightness_contrast: 0.3
+    gaussian_blur: 0.1
+
+# ============================================================
+# Entrenamiento
+# ============================================================
+training:
+  # Fine-tuning en dos etapas (definido en metodología)
+  stage1:                      # Solo capa de clasificación
+    epochs: 5
+    learning_rate: 1.0e-3
+    freeze_backbone: true
+
+  stage2:                      # Fine-tuning de últimas capas del backbone
+    epochs: 25
+    learning_rate: 1.0e-4
+    freeze_backbone: false
+    unfreeze_last_n_blocks: 2  # Solo descongelar los últimos N bloques
+
+  optimizer: AdamW
+  weight_decay: 1.0e-4
+  scheduler: cosine            # cosine annealing
+
+  # Función de pérdida con pesos por clase para manejar desbalanceo
+  loss: weighted_cross_entropy
+  class_weights: auto          # Calculados automáticamente desde el train set
+
+  # Early stopping
+  early_stopping:
+    enabled: true
+    patience: 5
+    monitor: val_f1_macro
+    mode: max
+
+# ============================================================
+# Evaluación
+# ============================================================
+evaluation:
+  primary_metric: f1_macro
+  metrics:
+    - accuracy
+    - precision_macro
+    - recall_macro
+    - f1_macro
+    - f1_per_class
+    - confusion_matrix
+
+  # Medición de eficiencia
+  efficiency:
+    enabled: true
+    inference_batch_size: 1    # Para medir latencia por imagen
+    num_warmup_iters: 10
+    num_measure_iters: 100

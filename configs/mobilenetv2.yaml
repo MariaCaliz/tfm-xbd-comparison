@@ -1,0 +1,25 @@
+# ============================================================
+# Configuración del experimento: MobileNetV2
+# Hereda de configs/base.yaml y sobrescribe lo específico.
+# ============================================================
+
+inherits: base.yaml
+
+experiment:
+  name: mobilenetv2_xbd
+  description: >
+    Fine-tuning de MobileNetV2 (preentrenado en ImageNet) sobre xBD
+    para clasificación de daños en 4 niveles.
+
+model:
+  name: mobilenetv2
+  pretrained: true
+  pretrained_source: imagenet
+  input_size: 224              # MobileNetV2 estándar
+  num_classes: 4
+  dropout: 0.2
+
+# Sobrescribimos ajustes específicos de entrenamiento si hace falta
+training:
+  stage2:
+    unfreeze_last_n_blocks: 3  # MobileNetV2 tiene bloques pequeños, podemos descongelar más

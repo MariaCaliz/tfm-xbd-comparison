@@ -1,0 +1,84 @@
+# ============================================================
+# Datos (NUNCA versionar el dataset xBD ni intermedios pesados)
+# ============================================================
+data/raw/
+data/processed/
+data/splits/*.csv
+!data/splits/.gitkeep
+*.tar
+*.tar.gz
+*.zip
+
+# ============================================================
+# Resultados pesados
+# ============================================================
+results/checkpoints/*.pt
+results/checkpoints/*.pth
+results/checkpoints/*.ckpt
+!results/checkpoints/.gitkeep
+# Sí versionamos métricas (CSV/JSON) y figuras finales para la memoria
+# results/metrics/   <- esto se versiona
+# results/figures/   <- esto se versiona
+
+# ============================================================
+# Python
+# ============================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Entornos virtuales
+.venv/
+venv/
+env/
+ENV/
+
+# ============================================================
+# Jupyter
+# ============================================================
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ============================================================
+# IDE / Editor
+# ============================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# ============================================================
+# Logs y experiment tracking
+# ============================================================
+*.log
+logs/
+runs/
+wandb/
+mlruns/
+.neptune/
+
+# ============================================================
+# Configuración local (puede contener paths o claves)
+# ============================================================
+.env
+.env.local
+config.local.yaml
