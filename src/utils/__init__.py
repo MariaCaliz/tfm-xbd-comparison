@@ -1,5 +1,6 @@
 """Utilidades transversales."""
 
+from src.utils.config import load_config
 from src.utils.seed import (
     count_parameters,
     get_device,
@@ -7,4 +8,4 @@ from src.utils.seed import (
     setup_logger,
 )
 
-__all__ = ["set_seed", "get_device", "setup_logger", "count_parameters"]
+__all__ = ["load_config", "set_seed", "get_device", "setup_logger", "count_parameters"]
