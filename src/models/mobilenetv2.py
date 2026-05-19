@@ -32,9 +32,6 @@ class MobileNetV2DamageClassifier(nn.Module):
 
         weights = MobileNet_V2_Weights.IMAGENET1K_V2 if pretrained else None
         backbone = mobilenet_v2(weights=weights)
-
-        # MobileNetV2 termina con classifier = Sequential(Dropout, Linear(1280, 1000))
-        # Lo reemplazamos por nuestra cabeza para num_classes.
         in_features = backbone.classifier[-1].in_features
         backbone.classifier = nn.Sequential(
             nn.Dropout(p=dropout),
@@ -45,8 +42,6 @@ class MobileNetV2DamageClassifier(nn.Module):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.backbone(x)
-
-    # ---------- Helpers para fine-tuning en dos etapas ----------
 
     def freeze_backbone(self) -> None:
         """Congela todas las capas excepto la cabeza de clasificación."""
@@ -68,15 +63,10 @@ class MobileNetV2DamageClassifier(nn.Module):
         Args:
             n: Número de bloques finales a descongelar.
         """
-        # Primero congelamos todo
         for param in self.backbone.parameters():
             param.requires_grad = False
-
-        # La cabeza siempre entrena
         for param in self.backbone.classifier.parameters():
             param.requires_grad = True
-
-        # Últimos N bloques de features
         features = self.backbone.features
         for block in features[-n:]:
             for param in block.parameters():

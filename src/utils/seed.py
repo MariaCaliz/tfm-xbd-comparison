@@ -68,7 +68,6 @@ def setup_logger(name: str, log_file: Path | None = None,
     logger = logging.getLogger(name)
     logger.setLevel(level)
 
-    # Evita duplicar handlers si se llama varias veces
     if logger.handlers:
         return logger
 
