@@ -55,8 +55,7 @@ def load_config(config_path: str | Path) -> dict:
             raise FileNotFoundError(
                 f"Config heredado '{parent_name}' no encontrado en {config_path.parent}"
             )
-        with parent_path.open(encoding="utf-8") as f:
-            base: dict = yaml.safe_load(f)
+        base = load_config(parent_path)  # recursivo: resuelve cadenas de herencia
         config = _deep_merge(base, config)
 
     missing = _REQUIRED_KEYS - set(config.keys())

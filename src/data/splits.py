@@ -308,6 +308,7 @@ def make_splits(
     class_dev_pp = {
         s: {
             c: round((class_dist[s][c] / totals[s] - global_props[c]) * 100, 1)
+            if totals[s] > 0 else 0.0
             for c in _LABEL_NAMES
         }
         for s in _TARGET_RATIOS

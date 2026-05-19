@@ -33,7 +33,6 @@ def set_seed(seed: int = 42) -> None:
     # Para determinismo completo (a coste de algo de velocidad):
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
-    # PyTorch >=1.8 también permite:
     os.environ["PYTHONHASHSEED"] = str(seed)
 
 
@@ -41,15 +40,18 @@ def get_device(prefer: str = "auto") -> torch.device:
     """Devuelve el dispositivo de cómputo a usar.
 
     Args:
-        prefer: 'auto' (usa cuda si está disponible), 'cuda' o 'cpu'.
+        prefer: 'auto' elige cuda > mps > cpu; 'cuda', 'mps' o 'cpu'
+                fuerza el dispositivo indicado.
 
     Returns:
         torch.device configurado.
     """
-    if prefer == "cpu":
-        return torch.device("cpu")
-    if prefer == "cuda" or (prefer == "auto" and torch.cuda.is_available()):
+    if prefer in ("cuda", "mps", "cpu"):
+        return torch.device(prefer)
+    if torch.cuda.is_available():
         return torch.device("cuda")
+    if hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
+        return torch.device("mps")
     return torch.device("cpu")
 
 
