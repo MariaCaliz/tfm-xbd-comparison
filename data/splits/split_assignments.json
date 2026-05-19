@@ -1,0 +1,94 @@
+{
+  "seed": 42,
+  "algorithm": "greedy_multiobjective_with_local_search",
+  "alpha_greedy": 0.9,
+  "alpha_local_search": 0.1,
+  "min_samples_per_class": 500,
+  "target_ratios": {
+    "train": 0.7,
+    "val": 0.15,
+    "test": 0.15
+  },
+  "actual_ratios": {
+    "train": 0.7035,
+    "val": 0.144,
+    "test": 0.1525
+  },
+  "train": [
+    "hurricane-harvey",
+    "hurricane-matthew",
+    "mexico-earthquake",
+    "midwest-flooding",
+    "nepal-flooding",
+    "palu-tsunami",
+    "pinery-bushfire",
+    "portugal-wildfire",
+    "santa-rosa-wildfire",
+    "socal-fire",
+    "tuscaloosa-tornado"
+  ],
+  "val": [
+    "guatemala-volcano",
+    "hurricane-florence",
+    "joplin-tornado",
+    "moore-tornado"
+  ],
+  "test": [
+    "hurricane-michael",
+    "lower-puna-volcano",
+    "sunda-tsunami",
+    "woolsey-fire"
+  ],
+  "totals_per_split": {
+    "train": 213117,
+    "val": 43622,
+    "test": 46194
+  },
+  "class_distribution_per_split": {
+    "train": {
+      "no-damage": 164379,
+      "minor-damage": 17016,
+      "major-damage": 16550,
+      "destroyed": 15172
+    },
+    "val": {
+      "no-damage": 32804,
+      "minor-damage": 3208,
+      "major-damage": 2706,
+      "destroyed": 4904
+    },
+    "test": {
+      "no-damage": 35345,
+      "minor-damage": 5435,
+      "major-damage": 2145,
+      "destroyed": 3269
+    }
+  },
+  "global_class_proportions": {
+    "no-damage": 0.7676,
+    "minor-damage": 0.0847,
+    "major-damage": 0.0706,
+    "destroyed": 0.0771
+  },
+  "class_deviation_from_global_pp": {
+    "train": {
+      "no-damage": 0.4,
+      "minor-damage": -0.5,
+      "major-damage": 0.7,
+      "destroyed": -0.6
+    },
+    "val": {
+      "no-damage": -1.6,
+      "minor-damage": -1.1,
+      "major-damage": -0.9,
+      "destroyed": 3.5
+    },
+    "test": {
+      "no-damage": -0.2,
+      "minor-damage": 3.3,
+      "major-damage": -2.4,
+      "destroyed": -0.6
+    }
+  },
+  "max_class_deviation_pp": 3.5
+}

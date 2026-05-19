@@ -115,7 +115,6 @@ def _process_tile(
     records: list[dict] = []
     skips: Counter = Counter()
 
-    # ── Carga JSON ────────────────────────────────────────────────────────────
     try:
         with open(json_path, encoding="utf-8") as f:
             label_data = json.load(f)
@@ -123,7 +122,6 @@ def _process_tile(
         logger.warning("TILE_SKIP json_error — %s: %s", json_path.name, exc)
         return records, Counter({"json_error": 1})
 
-    # ── Carga imagen ──────────────────────────────────────────────────────────
     try:
         img = Image.open(img_path).convert("RGB")
         img.load()  # detecta corrupción antes de iterar edificios
@@ -137,7 +135,6 @@ def _process_tile(
     event: str = meta.get("disaster", "unknown")
     tile_id: str = json_path.stem.replace("_post_disaster", "")
 
-    # ── Iterar edificios ──────────────────────────────────────────────────────
     for feat in label_data["features"]["xy"]:
         props = feat["properties"]
         subtype: str = props.get("subtype", "")
@@ -152,7 +149,6 @@ def _process_tile(
             skips["unknown_subtype"] += 1
             continue
 
-        # Parsear WKT y obtener bbox en píxeles
         try:
             poly = shapely_wkt.loads(feat["wkt"])
             minx, miny, maxx, maxy = poly.bounds
@@ -173,7 +169,6 @@ def _process_tile(
             skips["out_of_bounds"] += 1
             continue
 
-        # Edificio demasiado pequeño para ser útil
         if min(bw, bh) < min_side_px:
             logger.warning(
                 "BLDG_SKIP too_small uid=%s size=(%.1f×%.1f px)", uid, bw, bh,

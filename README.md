@@ -26,12 +26,30 @@ tfm-xbd-comparison/
 └── requirements.txt
 ```
 
-## Estado actual
+## Instalación y entornos
 
-🚧 Trabajo en curso.
+El proyecto usa tres archivos de dependencias según el entorno:
+
+| Archivo | Propósito |
+|---------|-----------|
+| `requirements.txt` | Dependencias lógicas sin versionar (referencia) |
+| `requirements-local.txt` | Lock completo para desarrollo local en Mac M4 (incluye torch 2.12 con soporte MPS) |
+| `requirements-colab.txt` | Lock para Google Colab con CUDA (se genera al configurar Colab) |
+
+**Entorno local (Mac M4):**
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements-local.txt
+```
+
+**Entorno Colab:** el notebook `notebooks/colab_mobilenetv2.ipynb` gestiona
+la instalación automáticamente usando el torch preinstalado en Colab.
+
+## Estado actual
 
 - [x] Estructura inicial del proyecto
 - [x] Configuraciones base de los experimentos
-- [ ] Preprocesamiento del dataset
+- [x] Preprocesamiento del dataset (302 933 crops, 2 GB)
 - [ ] Entrenamiento de los modelos
 - [ ] Evaluación y análisis comparativo
