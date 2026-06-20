@@ -1,0 +1,24 @@
+# ============================================================
+# Configuración del experimento: EfficientNet-B0
+# Hereda de configs/base.yaml y sobrescribe lo específico.
+# ============================================================
+
+inherits: base.yaml
+
+experiment:
+  name: efficientnetb0_xbd
+  description: >
+    Fine-tuning de EfficientNet-B0 (preentrenado en ImageNet) sobre xBD
+    para clasificación de daños en 4 niveles.
+
+model:
+  name: efficientnetb0
+  pretrained: true
+  pretrained_source: imagenet
+  input_size: 224
+  num_classes: 4
+  dropout: 0.2
+
+training:
+  stage2:
+    unfreeze_last_n_blocks: 3  # Descongela los últimos 3 elementos de features (MBConv + head conv)
