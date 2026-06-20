@@ -1,0 +1,24 @@
+# ============================================================
+# Configuración del experimento: ResNet50
+# Hereda de configs/base.yaml y sobrescribe lo específico.
+# ============================================================
+
+inherits: base.yaml
+
+experiment:
+  name: resnet50_xbd
+  description: >
+    Fine-tuning de ResNet50 (preentrenado en ImageNet) sobre xBD
+    para clasificación de daños en 4 niveles.
+
+model:
+  name: resnet50
+  pretrained: true
+  pretrained_source: imagenet
+  input_size: 224
+  num_classes: 4
+  dropout: 0.2
+
+training:
+  stage2:
+    unfreeze_last_n_blocks: 2  # Descongela layer3 y layer4 (dos últimas etapas bottleneck)
