@@ -78,6 +78,8 @@ training:
   # Función de pérdida con pesos por clase para manejar desbalanceo
   loss: weighted_cross_entropy
   class_weights: auto          # Calculados automáticamente desde el train set
+  weight_scheme: effective_number  # balanced | effective_number (Cui et al., 2019)
+  beta: 0.99999                    # hiperparámetro de effective_number; 0.99999 → ratio ~5.7x para esta distribución
 
   # Early stopping
   early_stopping:
